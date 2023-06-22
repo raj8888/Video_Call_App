@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-const mailOrderDetail = (order, classes, user,trainer) => {
+const mailerMeetingDetail = (doctor,patient,meeting) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -24,6 +24,8 @@ const mailOrderDetail = (order, classes, user,trainer) => {
         <p><b>Patient Name: </b>${patient.name}</p>
         <p><b>Meeting Date: </b>${meeting.meetingDate}</p>
         <p><b>Meeting Time: </b>${meeting.meetingTime}</p>      
+        <p><b>Meeting ID: </b>${meeting._id}</p>      
+        <p>Please Do not share this information with anyone.</p>      
       `,
     })
     .then((info) => {
@@ -45,9 +47,11 @@ const mailOrderDetail = (order, classes, user,trainer) => {
         <h1>Hello ${patient.name}</h1>
         <p>Thank you for booking a meeting on vedmedApp.</p>
         <h2>Here are your meeting details:-<h2> 
-        <p><b>Doctor Name: </b>${meeting.doctor}</p>
+        <p><b>Doctor Name: </b>${doctor.name}</p>
         <p><b>Meeting Date: </b>${meeting.meetingDate}</p>
-        <p><b>Meeting Time: </b>${meeting.meetingTime}</p>       
+        <p><b>Meeting Time: </b>${meeting.meetingTime}</p>
+        <p><b>Meeting ID: </b>${meeting._id}</p>   
+        <p>*Please Do not share this information with anyone.</p>     
       `,
     })
     .then((info) => {
@@ -59,4 +63,4 @@ const mailOrderDetail = (order, classes, user,trainer) => {
     });
 };
 
-module.exports = { mailOrderDetail };
+module.exports = { mailerMeetingDetail };

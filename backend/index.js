@@ -62,6 +62,7 @@ httpServer.listen(process.env.port,async()=>{
         await connection;
         console.log("Connected to DB")
     } catch (error) {
+        console.log(error.message)
         console.log("Not able to connected to DB")
     }
     console.log(`Server is running at port ${process.env.port}`)
