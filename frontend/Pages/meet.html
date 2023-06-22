@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Time</title>
+    <link rel='stylesheet' href='../Styles/meet.css'>
+</head>
+<body>
+    <body>
+        <div class='main_container'>
+        <div class='dashboard_container'>
+            <div class='logo_container'>
+                <img id="image_logo" src='../Images/logo.png'></img>
+            </div>
+            <div>
+                <div class='description_container'>
+                    <p class='description_container_paragraph'>
+                        Copy the meeting code and send to gmail to start meeting.
+                    </p>
+                </div>
+                <div class='personal_code_container'>
+                    <div class='personal_code_title_container'>
+                        <p class='personal_code_title_paragraph'>
+                            Your Meeting code:
+                        </p>
+                    </div>
+                    <div class="personal_code_value_container">
+                        <p class='personal_code_value_paragraph' id='personal_code_paragraph'>DDDDDD</p>
+                        <button class='personal_code_copy_button' id='personal_code_copy_button'>
+                            <img src='../Images/copyButton.png'></img>
+                        </button>
+                    </div>
+                </div>
+                </div>
+                <div class='personal_code_connecting_container'>
+                    <p class='personal_code_connecting_paragraph'>Enter Other Person Meeting Code:</p>
+                    <div class='personal_code_connecting_input_container'>
+                        <input class='personal_code_input' id='personal_code_input' placeholder="Enter Other persons code here..." style="background-color: white;color: black;width: 80%;"></input>
+                    </div>
+                    <div class='personal_code_connecting_input_container' style="margin-top: 10px; ">
+                        <input class='personal_code_input' id='sendtogmailcode' style="width: 50%;background-color:white;color: black;" placeholder="Send code to gmail..." ></input>
+                        <button id="sendtogmail" style="background-color: rgb(30, 30, 30);padding: 12px;border-radius: 10px; color: white;">sendToGmail</button>
+                    </div>
+                    <div class='personal_code_connecting_buttons_container'>
+                        <button class='connecting_button' id='personal_code_chat_button'>
+                            <img src='../Images/chatButton.png' class='connecting_buttons_image'></img>
+                        </button>
+                        <button class='connecting_button' id='personal_code_video_button'>
+                            <img src='../Images/videoButton.png' class='connecting_buttons_image'></img>
+                        </button>
+                    </div>
+                </div>
+
+                <div class='checkbox_container'>
+                    <div class='checkbox_connection' id='allow_strangers_checkbox'>
+                        <img id='allow_strangers_checkbox_image' class='' src='../Images/check.png'></img>
+                    </div>
+                    <p class='checkbox_container_paragraph'>Allow connection</p>
+                </div>
+                <div class='dashboard_blur display_none' id='dashboard_blur'></div>
+            </div>
+
+            <div class='call_container'>
+                <div class='videos_container'>
+                    <div id='video_placeholder' class='videos_placeholder'>
+                        <!-- <img src='../Images/logo.png'></img> -->
+                    </div>
+                    <video class='remote_video display_none' muted autoplay id='remote_video'></video>
+                    <div class='local_video_container'>
+                        <video class='local_video' id='local_video' muted autoplay></video>
+                    </div>
+                    <div class='call_buttons_container display_none' id='call_buttons'>
+                        <button class='call_button_small' id='mic_button'>
+                            <img src='../Images/mic.png' id='mic_button_image'></img>
+                        </button>
+                        <button class='call_button_small' id='camera_button'>
+                            <img src='../Images/camera.png' id='camera_button_image'></img>
+                        </button>
+                        <button class='call_button_large' id='hang_up_button'>
+                            <img src='../Images/hangUp.png'></img>
+                        </button>
+                        <button class='call_button_small' id='screen_sharing_button'>
+                            <img src='../Images/switchCameraScreenSharing.png'></img>
+                        </button>
+                        <button class='call_button_small' id='start_recording_button'>
+                            <img src='../Images/recordingStart.png'></img>
+                        </button>
+                    </div>
+                    <div class='finish_chat_button_container display_none' id='finish_chat_button_container'>
+                        <button class='call_button_large' id='finish_chat_call_button'>
+                            <img src='../Images/hangUp.png'></img>
+                        </button>
+                    </div>
+                    <div class='video_recording_buttons_container display_none' id='video_recording_buttons'>
+                        <button id='pause_recording_button'>
+                            <img src='../Images/pause.png'></img>
+                        </button>
+                        <button id='resume_recording_button' class='display_none'>
+                            <img src='../Images/resume.png'></img>
+                        </button>
+                        <button id='stop_recording_button'>
+                            Stop recording
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class='messenger_container'>
+                <div class='message_container' id='message_container'></div>
+                <div class='new_message_container display_none' id='new_message'>
+                    <input class='new_message_input' id='new_message_input' type='text' placeholder="Type your message..."></input>
+                    <button class='send_message_button' id='send_message_button'>
+                        <img class='send_message_button_image' src='../Images/sendMessageButton.png'></image>
+                    </button>
+                </div>
+            </div>
+            <div id='dialog'></div>
+            </div>
+        <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+        <script src="../Scripts/meet.js" type="module"></script>
+        <script src="../Scripts/state.js" type="module"></script>
+        <script src="../Scripts/event.js" type="module"></script>
+        <script src="../Scripts/change.js" type="module"></script>
+        <script src="../Scripts/WebRtc.js" type="module"></script>
+        <script src="../Scripts/constants.js" type="module"></script>
+    </body>
+</body>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</html>

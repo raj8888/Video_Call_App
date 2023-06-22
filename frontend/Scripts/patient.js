@@ -167,6 +167,8 @@ async function renderAllMeetings(temp){
                     <p>- <b>MeetingTime:</b></p>
                     <p>${elem.meetingTime}</p>
                     <div class='meetbtns'>
+                    <button class='updatebtn'  data-id=${elem._id}>Update</button>
+                    <button class='deletebtn'  data-id=${elem._id}>Delete</button>
                     <button class='joinmeet'  data-id=${elem._id}>Join Meet</button>
                     </div>
                     
@@ -198,6 +200,20 @@ async function renderAllMeetings(temp){
         elem.addEventListener('click',(event)=>{
             let id = event.target.dataset.id;
             deleteMeeting(id)
+        })
+    })
+
+    let joinbtn=document.querySelectorAll(".joinmeet")
+    joinbtn.forEach(elem=>{
+        elem.addEventListener('click',async(event)=>{
+            let meetId = event.target.dataset.id;
+            let ans=await checkMeetStartOrNot(meetId)
+            if(ans){
+                const joinUrl = `../Pages/meet.html?meetingID=`+meetId;
+                window.location.href = joinUrl;
+            }else{
+                await swal("Error!", "Sorry :(, Time and Date didn't match to start meeting", "error");
+            }
         })
     })
 }
@@ -298,6 +314,46 @@ async function updateNewData(obj,id){
         }else{
             await swal("Updated!", "Meeting Updated Successfully", "success");
             window.location.reload();
+        }
+    } catch (error) {
+        console.log(error.message)
+        await swal("Server Error!", "Sorry :(, There is error in Server!", "error");
+    }
+}
+
+async function checkMeetStartOrNot(meetID){
+    try {
+        let url=await fetch(`${mainAPI}/meetings/single/${meetID}`,{
+        method:"GET",
+        headers:{
+            authorization:`Bearer ${token}`
+        }
+    })
+
+    let temp= await url.json()
+        if(temp.status==401 || temp.status==400){
+            await swal("Server Error!", `Sorry :(, ${temp.message}`, "error");
+        }else{
+           let meeting=temp.meetingData 
+           let date=meeting.meetingDate
+           let time=meeting.meetingTime
+           var currentDate = new Date();
+
+            // Format the date as "YYYY-MM-DD"
+            var year = currentDate.getFullYear();
+            var month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
+            var day = ('0' + currentDate.getDate()).slice(-2);
+            var formattedDate = year + '-' + month + '-' + day;
+
+            // Format the time as "HH:MM"
+            var hours = ('0' + currentDate.getHours()).slice(-2);
+            var minutes = ('0' + currentDate.getMinutes()).slice(-2);
+            var formattedTime = hours + ':' + minutes;
+            if(formattedDate==date && formattedTime==time){
+                return true
+            }else{
+                return false
+            }
         }
     } catch (error) {
         console.log(error.message)
