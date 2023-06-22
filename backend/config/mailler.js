@@ -165,6 +165,58 @@ transporter
   .catch((err) => {
     console.log(err);
   });
+  }else if(task.whom=='sendtopatient'){
+    transporter
+  .sendMail({
+    to: patient.email,
+    from: process.env.mailID,
+    subject: "Hey, Please join meet.",
+    text: "From vedmedApp",
+    html: `
+      <h1>Hello ${patient.name},</h1>
+      <p><b>Doctor Name: </b>${doctor.name}</p>
+      <p><b>Meeting Date: </b>${meeting.meetingDate}</p>
+      <p><b>Meeting Time: </b>${meeting.meetingTime}</p>
+      <p><b>Meeting ID: </b>${meeting._id}</p> 
+      <p><b>Meeting Code: </b>${task.meetingCode}</p> 
+      <p>ThankYou for your service.</p>  
+      <p>Copy this meeting code to the personal code and click on video to join the meet.</p>
+      <p>*Please Do not share this information with anyone.</p>     
+    `,
+  })
+  .then((info) => {
+    console.log(info.response);
+    console.log("Mail sent to patient.");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+  }else if(task.whom=='sendtodoctor'){
+    transporter
+  .sendMail({
+    to: doctor.email,
+    from: process.env.mailID,
+    subject: "Hey, Please join meet.",
+    text: "From vedmedApp",
+    html: `
+      <h1>Hello ${doctor.name},</h1>
+      <p><b>Patient Name: </b>${patient.name}</p>
+      <p><b>Meeting Date: </b>${meeting.meetingDate}</p>
+      <p><b>Meeting Time: </b>${meeting.meetingTime}</p>
+      <p><b>Meeting ID: </b>${meeting._id}</p> 
+      <p><b>Meeting Code: </b>${task.meetingCode}</p> 
+      <p>ThankYou for your service.</p>  
+      <p>Copy this meeting code to the personal code and click on video to join the meet.</p>
+      <p>*Please Do not share this information with anyone.</p>     
+    `,
+  })
+  .then((info) => {
+    console.log(info.response);
+    console.log("Mail sent to doctor.");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
   }
 };
 

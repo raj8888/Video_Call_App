@@ -129,6 +129,36 @@ meetingRouter.delete("/delete/:meetingID",authorization(['admin','patient']),asy
     }
 })
 
+meetingRouter.post("/sendmail",async(req,res)=>{
+    try {
+        let meetingCode=req.body.meetingCode
+        let meetingID=req.body.meetingID
+        let userRole=req.body.userRole
+        let meeting=await meetingModel.findById(meetingID)
+        let patientID=meeting.patinetID
+        let doctorID=meeting.doctorID
+        let patient=await patientModel.findOne({_id:patientID})
+        let doctor=await doctorModel.findOne({_id:doctorID})
+        let task;
+        if(userRole=='patient'){
+            task={
+                whom:'sendtodoctor',
+                meetingCode:meetingCode
+            }
+            mailerMeetingDetail(doctor,patient,meeting,task)
+        }else{
+            task={
+                whom:'sendtopatient',
+                meetingCode:meetingCode
+            }
+            mailerMeetingDetail(doctor,patient,meeting,task)
+        }
+        res.status(200).send({"Message":"Meeting Code Send Successfully..."})
+    } catch (error) {
+        console.log(error.message)
+            res.status(400).send({"message":"Sorry :( , Server Error"})
+    }
+})
 module.exports={
     meetingRouter
 }
