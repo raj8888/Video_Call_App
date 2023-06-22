@@ -5,7 +5,7 @@ if(!token){
 
 let showname=document.getElementById("name-container")
 
-let mainAPI="http://localhost:4500"
+let mainAPI="https://video-call-backend-i5df.onrender.com"
 
 getAllDoctors()
 async function getAllDoctors(){

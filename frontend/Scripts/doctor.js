@@ -2,7 +2,7 @@ let token=JSON.parse(sessionStorage.getItem("vedmedtoken"))
 if(!token){
     window.location.assign("./login.html");
 }
-let mainAPI="http://localhost:4500"
+let mainAPI="https://video-call-backend-i5df.onrender.com"
 let allmeetings=document.getElementById("allmeetings")
 
 getAllMeetings()
