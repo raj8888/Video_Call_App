@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedVed Login</title>
+     <!-- ==================================bootstrap===================================================== -->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+     <!-- Fontawesome CDN Link -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+     <script src="https://kit.fontawesome.com/f90c67bbfa.js" crossorigin="anonymous"></script>
+     <!-- ======================================== css========================================================= -->
+    <link rel="stylesheet" href="../Styles/login.css">
+</head>
+<body>
+    <div id="navbar">
+        
+            <img id="gif" src="../Images/logo.png">
+            <div>
+                <p id="brand_name">MedVed</p>
+            </div>
+            
+    
+    </div>
+        
+   
+    <main>
+      <div class="container">
+        <input type="checkbox" id="flip">
+        <div class="cover">
+          <div class="front">
+            <img src="../Images/clip-art-2.gif" alt="">
+            <div class="text">
+              <span class="text-1"> <br></span>
+              <span class="text-2"></span>
+            </div>
+          </div>
+          <div class="back">
+            <img class="backImg" src="../Images/clip-art-2.gif" alt="">
+            <div class="text">
+              <span class="text-1">Complete miles of journey <br> with one step</span>
+              <span class="text-2">Let's get started</span>
+            </div>
+          </div>
+        </div>
+        <div class="forms">
+            <div class="form-content">
+    
+            <!-- ======================================login========================================================  -->
+              <div class="login-form">
+                <div class="title">Login</div>
+              <form>
+                <div class="input-boxes">
+                  <div class="input-box">
+                    <i class="fas fa-envelope"></i>
+                    <input class="login-email" type="email" placeholder="Enter your email" required>
+                  </div>
+                  <div class="input-box">
+                    <i class="fas fa-circle"></i>
+                    <input class="login-role" type="text" placeholder="Enter your role (e.g. doctor,patient)" required>
+                  </div>
+                  <div class="input-box">
+                    <i class="fas fa-lock"></i>
+                    <input class="login-password" type="password" placeholder="Enter your password" autocomplete="on" required>
+                  </div>
+                  <!-- <div class="text"><a href="#">Forgot password?</a></div> -->
+                  <div class="button input-box">
+                    <input type="submit" value="Submit">
+                  </div>
+                  <div class="text sign-up-text">Don't have an account? <label for="flip">Sigup now</label></div>
+                </div>
+            </form>
+          </div>
+        <!-- ======================================signup========================================================  -->
+    
+            <div class="signup-form">
+              <div class="title">Signup</div>
+            <form >
+                <div class="input-boxes">
+                  <div class="input-box">
+                    <i class="fas fa-user"></i>
+                    <input class="signup-name" type="text" placeholder="Enter your name" required>
+                  </div>
+                  <div class="input-box">
+                    <i class="fas fa-envelope"></i>
+                    <input class="signup-email" type="email" placeholder="Enter your email" required>
+                  </div>
+                  <div class="input-box">
+                    <i class="fa-sharp fa-solid fa-phone"></i>
+                    <input class="signup-number" type="text" placeholder="Enter your Mobile Number" required>
+                  </div>
+                  <div class="input-box">
+                    <i class="fa-sharp fa-solid fa-calendar"></i>
+                    <input  type="number" class="signup-age" placeholder="Enter your Age" required>
+                  </div>
+                  <div class="input-box">
+                    <i class="fa-sharp fa-solid fa-venus-mars"></i>
+                    <input  type="string" class="signup-gender" placeholder="Enter your gender" required>
+                  </div>
+                  <div class="input-box">
+                    <i class="fas fa-check-circle"></i>
+                    <input class="signup-role" type="text" placeholder="Enter role (e.g. doctor,patient)" required>
+                  </div>
+                  <div class="input-box">
+                    <i class="fas fa-lock"></i>
+                    <input class="signup-password" type="password" placeholder="Enter your password" autocomplete="on" required>
+                  </div>
+                  <div class="button input-box">
+                    <input type="submit"   value="Sumbit">
+                    <p  data-toggle="modal" data-target="#otpModal"></p>
+                  </div>
+                  <div class="text sign-up-text">Already have an account? <label for="flip">Login now</label></div>
+                </div>
+          </form>
+        </div>
+        </div>
+        </div>
+      </div>
+    </main>
+
+
+    
+    </body>
+    
+    </script>
+  
+    <script src="../Scripts/login.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    
+</html>

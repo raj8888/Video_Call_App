@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard</title>
+    <link rel="shortcut icon" href="../Images/logo.png" type="image/x-icon">
+    <link rel="icon" href="../Images/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="../Styles/doctor.css">
+</head>
+<body>
+    <nav class="navbar">
+
+     
+        
+        <div class="logo"><img src="../Images/logo.png" alt=""></div>
+        
+    
+        
+            <ul class="nav-links">
+        
+    
+        
+                <input type="checkbox" id="checkbox_toggle" />
+        
+                <label for="checkbox_toggle" class="hamburger">&#9776;</label>
+        
+        
+                <div class="menu">
+            
+                    <li><a href="./doctor.html">Home</a></li>
+            
+                    <li><a href="#">See All Meetings</a></li>
+            
+                    <li><a href="#">Favorites</a></li>
+
+                    <li><a href="./login.html" onclick="logoutFun()">Logout</a></li>
+            
+                </div>
+        
+            </ul>
+        
+    </nav>
+
+    <div id="middlepart">
+        <h2 id="dochead">Hello Doctor,</h2>
+        <h3 id="meethead">All Meetings:</h3>
+        <div id="allmeetings">
+            
+        </div>
+    </div>
+</body>
+<script>
+    function logoutFun(){
+    sessionStorage.clear();
+}
+</script>
+<script src="../Scripts//doctor.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</html>

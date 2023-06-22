@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard</title>
+    <link rel="shortcut icon" href="../Images/logo.png" type="image/x-icon">
+    <link rel="icon" href="../Images/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="../Styles/patient.css">
+</head>
+<body>
+    <nav class="navbar">
+
+     
+        
+        <div class="logo"><img src="../Images/logo.png" alt=""></div>
+        
+    
+        
+            <ul class="nav-links">
+        
+    
+        
+                <input type="checkbox" id="checkbox_toggle" />
+        
+                <label for="checkbox_toggle" class="hamburger">&#9776;</label>
+        
+        
+                <div class="menu">
+            
+                    <li><a href="./patient.html">Home</a></li>
+            
+                    <li><a href="#" onclick="getAllDoctors()">See All Doctors</a></li>
+            
+                    <li><a href="#">Create Meeting</a></li>
+            
+                    <li><a href="#" onclick="getAllMeeting()">See All Meetings</a></li>
+
+                    <li><a href="./login.html" onclick="logoutFun()">Logout</a></li>
+            
+                </div>
+        
+            </ul>
+        
+    </nav>
+    <div id="name-container">
+        <h2>Hello Patient,</h2>
+    </div>
+    <div id="mid-container">
+        <div id="first-mid-cont">
+            <div id="seatch-fun">
+                <input type="text" id="search" placeholder="Search doctor name/Area of Specilization">
+                <button id="searchbtn">Search</button>
+            </div>
+            <hr>
+            <div id="rendermid">
+               
+                
+            </div>
+            
+        </div>
+
+
+        <div id="sec-mid-cont">
+            <h2 id="create-head-meet">Create Meeting Form</h2>
+            <form id="meetform" class="meetform">
+                <div>
+                    <label for="doctor-id">Enter DoctorID:</label>
+                    <input type="text" class="doctor-id" id="doctor-id" placeholder="Enter docterID here...">
+                </div>
+                <div>
+                    <label for="date_time">Class Date & Time:</label> <br> 
+                   <div id="date-time">
+                    <input type="date" placeholder="Enter class Date & Time" class="date" id="date" required >
+                    <input type="time" class="time" id="time" required>
+                   </div>
+                </div>
+                <div>
+                    <label for="concerns">Enter Your Concerns:</label>
+                    <textarea rows="8" type="text" id="concerns" class="concerns" placeholder="Enter your concerns here..."></textarea>
+                </div>
+                <button type="submit" id="cr-btn-meet">Create Meeting</button>
+                <button type="submit" id="up-btn-meet">Update Meeting</button>
+            </form>
+        </div>
+    </div>
+</body>
+<script>
+    function logoutFun(){
+    sessionStorage.clear();
+}
+var today = new Date().toISOString().split("T")[0];
+document.getElementById("date").setAttribute("min", today);
+
+var now = new Date();
+var currentHour = now.getHours();
+var currentMinute = now.getMinutes();
+var currentTime = currentHour.toString().padStart(2, '0') + ':' + currentMinute.toString().padStart(2, '0');
+document.getElementById("time").setAttribute("min", currentTime);
+</script>
+<script src="../Scripts/patient.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</html>
