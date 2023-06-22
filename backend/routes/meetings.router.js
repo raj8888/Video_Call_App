@@ -58,10 +58,33 @@ meetingRouter.get("/all/patient",authorization(['admin','patient']),async(req,re
     }
 })
 
+meetingRouter.get("/patients/all",authorization(['admin','patient']),async(req,res)=>{
+    try {
+        let patientID=req.body.userID
+        let meetings=await meetingModel.find({patinetID:patientID})
+        res.status(201).send({"message":"Patient all meeting",'meetings':meetings})
+    } catch (error) {
+        console.log(error.message)
+        res.status(400).send({"message":"Sorry :( , Server Error"})
+    }
+})
+
+
+meetingRouter.get("/doctors/all",authorization(['admin','doctor']),async(req,res)=>{
+    try {
+        let doctorID=req.body.userID
+        let meetings=await meetingModel.find({doctorID:doctorID})
+        res.status(201).send({"message":"Doctor all meeting",'meetings':meetings})
+    } catch (error) {
+        console.log(error.message)
+        res.status(400).send({"message":"Sorry :( , Server Error"})
+    }
+})
+
 meetingRouter.get("/single/:meetingID",authorization(['admin','patient','doctor']),async(req,res)=>{
     try {
         let meetingID=req.params.meetingID
-        let meetingData=await meetingModel.findbyId(meetingID)
+        let meetingData=await meetingModel.findById(meetingID)
         res.status(200).send({"Message":"Meeting data is here.",meetingData:meetingData})
     } catch (error) {
         console.log(error.message)
