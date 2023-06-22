@@ -24,8 +24,8 @@ meetingRouter.post("/bookmeeting/:patientID",authorization(['admin','patient']),
         let patient=await patientModel.findOne({_id:patientID})
         let doctor=await doctorModel.findOne({_id:doctorID})
         let meeting=await newwmeeting.save()
-        console.log(meeting)
-        mailerMeetingDetail(doctor,patient,meeting)
+        let task='create'
+        mailerMeetingDetail(doctor,patient,meeting,task)
         res.status(200).send({"Message":"Meeting Successfully created."})
     } catch (error) {
             console.log(error.message)
@@ -71,9 +71,16 @@ meetingRouter.patch("/update/:meetingID",authorization(['admin','patient']),asyn
         let newMeetingData=req.body
         let meetingID=req.params.meetingID
         await meetingModel.findByIdAndUpdate(meetingID,newMeetingData)
+        let meeting=await meetingModel.findById(meetingID)
+        let patientID=meeting.patinetID
+        let doctorID=meeting.doctorID
+        let patient=await patientModel.findOne({_id:patientID})
+        let doctor=await doctorModel.findOne({_id:doctorID})
+        let task='update'
+        mailerMeetingDetail(doctor,patient,meeting,task)
         res.status(200).send({"Message":"Meeting  information updated successfully."})
     } catch (error) {
-            console.log(error.message)
+            console.log(error.message) 
             res.status(400).send({"message":"Sorry :( , Server Error"})
     }
 })
@@ -81,6 +88,13 @@ meetingRouter.patch("/update/:meetingID",authorization(['admin','patient']),asyn
 meetingRouter.delete("/delete/:meetingID",authorization(['admin','patient']),async(req,res)=>{
     try {
         let meetingID=req.params.meetingID
+        let meeting=await meetingModel.findById(meetingID)
+        let patientID=meeting.patinetID
+        let doctorID=meeting.doctorID
+        let patient=await patientModel.findOne({_id:patientID})
+        let doctor=await doctorModel.findOne({_id:doctorID})
+        let task='delete'
+        mailerMeetingDetail(doctor,patient,meeting,task)
         await meetingModel.findByIdAndDelete(meetingID)
         res.status(200).send({"Message":"Meeting  Deleted successfully."})
     } catch (error) {
