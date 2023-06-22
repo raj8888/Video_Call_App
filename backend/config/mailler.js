@@ -12,13 +12,13 @@ const mailerMeetingDetail = (doctor,patient,meeting,task) => {
 
   if(task==='create'){
     // Send Mail to Doctor
-  transporter
-  .sendMail({
+  transporter.sendMail({
     to: doctor.email,
     from:  process.env.mailID,
     subject: "Hey, Your meeting is Confirmed with patient.",
-    text: "From vedmedApp ",
-    html: `
+    text: "From vedmedApp",
+    html: 
+    `
       <h1>Hello ${doctor.name}</h1>
       <p>A patient  has booked a meeting with you.</p>
       <h2>Here are your Meeting details:-<h2> 
@@ -44,7 +44,8 @@ transporter
     from: process.env.mailID,
     subject: "ThankYou, Your meeting is Confirmed with Doctor.",
     text: "From vedmedApp",
-    html: `
+    html: 
+    `
       <h1>Hello ${patient.name}</h1>
       <p>Thank you for booking a meeting on vedmedApp.</p>
       <h2>Here are your meeting details:-<h2> 
@@ -166,5 +167,6 @@ transporter
   });
   }
 };
+
 
 module.exports = { mailerMeetingDetail };

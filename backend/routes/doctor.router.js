@@ -2,6 +2,10 @@ const express = require("express")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const { doctorModel } = require("../models/doctor.model")
+const {authenticator}=require("../middlewares/authentication.middleware")
+const {authorization}=require("../middlewares/authorization.middleware")
+
+
 
 const doctorRouter = express.Router()
 
@@ -33,7 +37,8 @@ doctorRouter.post("/register", async (req, res) => {
                             mobile: inputData.mobile,
                             createdDate: createdDate,
                             password: hash,
-                            sex: inputData.sex,
+                            gender:inputData.gender,
+                            areaOfSpecialization: inputData.areaOfSpecialization || 'NA',
                             role: inputData.role,
                             age: inputData.age
                         })
@@ -82,6 +87,44 @@ doctorRouter.post("/login",async(req,res)=>{
     }
 })
 
+doctorRouter.use(authenticator)
+
+doctorRouter.get("/all",authorization(['admin','patient']),async(req,res)=>{
+    try {
+            let allDoctors=await doctorModel.find()
+            res.status(201).send({'message':"Information of all Doctors",'allDoctors':allDoctors})
+    } catch (error) {
+            console.log(error.message)
+            res.status(400).send({"message":"Sorry :( , Server Error"})
+    }
+})
+
+doctorRouter.get("/single/:doctorID",authorization(['admin','patient']),async(req,res)=>{
+    try {
+            let doctorID=req.params.doctorID
+            let doctorData=await doctorModel.findById(doctorID)
+            res.status(201).send({'message':"Information of Doctor",'doctorData':doctorData})
+    } catch (error) {
+            console.log(error.message)
+            res.status(400).send({"message":"Sorry :( , Server Error"})
+    }
+})
+
+doctorRouter.post("/search",authorization(['admin','patient']),async(req,res)=>{
+    try {
+    let searchval=req.body.searchVal
+    let mainData=await doctorModel.find({
+        $or: [
+          { areaOfSpecialization: { $regex: searchval, $options: 'i' } },
+          { name: { $regex: searchval, $options: 'i' } }
+        ]
+      })
+      res.status(201).send({"message":"Here your searchdata",'searchData':mainData})
+    } catch (error) {
+        console.log(error.message)
+        res.status(400).send({"message":"Sorry :( , Server Error"})
+    }
+})
 module.exports={
     doctorRouter
 }

@@ -6,6 +6,7 @@ const doctorSchema = mongoose.Schema({
     password:String,
     mobile:String,
     sex:String,
+    areaOfSpecialization:String,
     role:{type:String,default:"client"},
     age:Number,
     meetings:[{type:String}],

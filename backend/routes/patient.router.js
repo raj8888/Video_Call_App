@@ -2,6 +2,8 @@ const express = require("express")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const { patientModel } = require("../models/patient.models")
+const {authenticator}=require("../middlewares/authentication.middleware")
+const {authorization}=require("../middlewares/authorization.middleware")
 
 const patientRouter = express.Router()
 
@@ -79,6 +81,29 @@ patientRouter.post("/login",async(req,res)=>{
             console.log(error.message)
             res.status(400).send({"message":"Sorry :( , Server Error"})
         }
+    }
+})
+
+patientRouter.use(authenticator)
+
+patientRouter.get("/all",authorization(['admin']),async(req,res)=>{
+    try {
+            let allPatients=await patientModel.find()
+            res.status(201).send({'message':"Information of all Patient",'allPatients':allPatients})
+    } catch (error) {
+            console.log(error.message)
+            res.status(400).send({"message":"Sorry :( , Server Error"})
+    }
+})
+
+patientRouter.get("/single/:patientID",authorization(['admin','doctor']),async(req,res)=>{
+    try {
+            let patientID=req.params.patientID
+            let patientData=await patientModel.findById(patientID)
+            res.status(201).send({'message':"Information of patient",'patientData':patientData})
+    } catch (error) {
+            console.log(error.message)
+            res.status(400).send({"message":"Sorry :( , Server Error"})
     }
 })
 

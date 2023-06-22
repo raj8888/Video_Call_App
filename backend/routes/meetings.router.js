@@ -9,17 +9,20 @@ const {authorization}=require("../middlewares/authorization.middleware")
 const meetingRouter = express.Router()
 meetingRouter.use(authenticator)
 
-meetingRouter.post("/bookmeeting/:patientID",authorization(['admin','patient']),async(req,res)=>{
+meetingRouter.post("/bookmeeting",authorization(['admin','patient']),async(req,res)=>{
     try {
         let meetingDate=req.body.meetingDate
         let meetingTime=req.body.meetingTime
-        let patientID=req.params.patientID
+        let patientID=req.body.userID
         let doctorID=req.body.doctorID
+        let concerns=req.body.concerns
         let newwmeeting=new meetingModel({
             patinetID:patientID ,
             doctorID:doctorID ,
+            concerns:concerns,
             meetingTime:meetingTime,
-            meetingDate:meetingDate
+            meetingDate:meetingDate,
+            completed:false
         })
         let patient=await patientModel.findOne({_id:patientID})
         let doctor=await doctorModel.findOne({_id:doctorID})
