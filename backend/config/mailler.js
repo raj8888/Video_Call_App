@@ -15,7 +15,7 @@ const mailerMeetingDetail = (doctor,patient,meeting,task) => {
   transporter.sendMail({
     to: doctor.email,
     from:  process.env.mailID,
-    subject: "Hey, Patient send message to you to book appointment.",
+    subject: "Hi Doctor, Patient send message to you to book appointment.",
     text: "From vedmedApp.",
     html: 
     `
@@ -42,7 +42,7 @@ const mailerMeetingDetail = (doctor,patient,meeting,task) => {
   .sendMail({
     to: doctor.email,
     from:  process.env.mailID,
-    subject: "Hey, Meeting information updated by patient.",
+    subject: "Hi Doctor, Meeting information updated by patient.",
     text: "From vedmedApp ",
     html: `
       <h1>Hello ${doctor.name}</h1>
@@ -94,7 +94,7 @@ transporter
   .sendMail({
     to: doctor.email,
     from:  process.env.mailID,
-    subject: "Hey, Meeting cancelled by patient.",
+    subject: "Hi Doctor, Meeting cancelled by patient.",
     text: "From vedmedApp ",
     html: `
       <h1>Hello ${doctor.name},</h1>
@@ -143,7 +143,7 @@ transporter
   .sendMail({
     to: patient.email,
     from: process.env.mailID,
-    subject: "Hey, Please join meet.",
+    subject: "Hi Patient, Please join meet.",
     text: "From vedmedApp",
     html: `
       <h1>Hello ${patient.name},</h1>
@@ -169,7 +169,7 @@ transporter
   .sendMail({
     to: doctor.email,
     from: process.env.mailID,
-    subject: "Hey, Please join meet.",
+    subject: "Hi Doctor, Please join meet.",
     text: "From vedmedApp",
     html: `
       <h1>Hello ${doctor.name},</h1>
