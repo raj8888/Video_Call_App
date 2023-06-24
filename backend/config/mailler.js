@@ -138,7 +138,7 @@ transporter
   .catch((err) => {
     console.log(err);
   });
-  }else if(task.whom=='sendtopatient'){
+  }else if(task.whom==='sendtopatient'){
     transporter
   .sendMail({
     to: patient.email,
@@ -164,7 +164,7 @@ transporter
   .catch((err) => {
     console.log(err);
   });
-  }else if(task.whom=='sendtodoctor'){
+  }else if(task.whom==='sendtodoctor'){
     transporter
   .sendMail({
     to: doctor.email,
@@ -190,7 +190,7 @@ transporter
   .catch((err) => {
     console.log(err);
   });
-  }else if(task='createmeeting'){
+  }else if(task==='createmeeting'){
      // Send Mail to Doctor
   transporter
   .sendMail({
@@ -244,7 +244,7 @@ transporter
   .catch((err) => {
     console.log(err);
   });
-  }else if(task='cancelappointment'){
+  }else if(task==='cancelappointment'){
     transporter
   .sendMail({
     to: patient.email,
@@ -268,6 +268,61 @@ transporter
   .catch((err) => {
     console.log(err);
   });
+  }else if(task==='notefToDoctor'){
+// Send Mail to Doctor
+transporter
+.sendMail({
+  to: doctor.email,
+  from:  process.env.mailID,
+  subject: "Hi Doctor, Please Join Meet Immediately.",
+  text: "From vedmedApp.",
+  html: `
+    <h1>Hello ${doctor.name},</h1>
+    <p>Please Join Meet withing 5 minutes.</p>
+    <p>If you are not able to join meet then it will be cancelled.</p>
+    <p>Here are your meeting details:</p>
+    <p><b>Patient Name: </b>${patient.name}</p>
+    <p><b>Patient Concerns: </b>${meeting.concerns}</p>
+    <p><b>Meeting Date: </b>${meeting.meetingDate}</p>      
+    <p><b>Meeting Time: </b>${meeting.meetingTime}</p>      
+    <p><b>Meeting ID: </b>${meeting._id}</p>   
+    <p>Please Do not share this information with anyone.</p>      
+  `,
+})
+.then((info) => {
+  console.log(info.response);
+  console.log("Mail sent to Doctor.");
+})
+.catch((err) => {
+  console.log(err);
+});
+  }else if(task==='notefToPatient'){
+    transporter
+    .sendMail({
+      to: patient.email,
+      from: process.env.mailID,
+      subject: "Hi Patient, Please Join Meet Immediately.",
+      text: "From vedmedApp",
+      html: `
+      <h1>Hello ${doctor.name},</h1>
+      <p>Please Join Meet withing 5 minutes.</p>
+      <p>If you are not able to join meet then it will be cancelled.</p>
+      <p>Here are your meeting details:</p>
+      <p><b>Doctor Name: </b>${doctor.name}</p>
+      <p><b>Patient Concerns: </b>${meeting.concerns}</p>
+      <p><b>Meeting Date: </b>${meeting.meetingDate}</p>      
+      <p><b>Meeting Time: </b>${meeting.meetingTime}</p>      
+      <p><b>Meeting ID: </b>${meeting._id}</p>   
+      <p>Please Do not share this information with anyone.</p>       
+      `,
+    })
+    .then((info) => {
+      console.log(info.response);
+      console.log("Mail sent to patient.");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   }
 };
 

@@ -200,6 +200,31 @@ meetingRouter.post("/sendmail",async(req,res)=>{
             res.status(400).send({"message":"Sorry :( , Server Error"})
     }
 })
+
+meetingRouter.post("/notification/:meetingID",async(req,res)=>{
+    try {
+        let meetingID=req.params.meetingID
+        let userRole=req.body.userRole
+        let meeting=await meetingModel.findById(meetingID)
+        let patientID=meeting.patinetID
+        let doctorID=meeting.doctorID
+        let patient=await patientModel.findOne({_id:patientID})
+        let doctor=await doctorModel.findOne({_id:doctorID})
+        console.log(userRole)
+        if(userRole=='doctor'){
+            let task="notefToDoctor"
+            mailerMeetingDetail(doctor,patient,meeting,task)
+            res.status(200).send({"Message":"Notification send to doctor"})
+        }else{
+            let task="notefToPatient"
+            mailerMeetingDetail(doctor,patient,meeting,task)
+            res.status(200).send({"Message":"Notification send to patient"})
+        }
+    } catch (error) {
+        console.log(error.message)
+        res.status(400).send({"message":"Sorry :( , Server Error"})
+    }
+})
 module.exports={
     meetingRouter
 }
