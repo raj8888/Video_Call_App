@@ -1,29 +1,7 @@
-/* button {
-    background: transparent;
-    box-shadow: 0px 0px 0px transparent;
-    border: 0px solid transparent;
-    text-shadow: 0px 0px 0px transparent;
-  }
-  
-  button:hover {
-    opacity: 0.5;
-    box-shadow: 0px 0px 0px transparent;
-    border: 0px solid transparent;
-    text-shadow: 0px 0px 0px transparent;
-  }
-  
-  button:active {
-    outline: none;
-    border: none;
-  }
-  
-  button:focus {
-    outline: 0;
-  }
-   */
-  html {
+
+  /* html {
     height: 100%;
-  }
+  } */
   body {
     min-height: 100%;
     margin: 0;
@@ -44,7 +22,7 @@
   .dashboard_container {
     width: 25%;
     padding: 10px;
-    height: 100vh;
+    height: 100%;
     background: linear-gradient(168.68deg, #e8264a 1.12%, #f84d55 100%);
     display: flex;
     flex-direction: column;
@@ -66,16 +44,17 @@
   }
   
   .logo_container {
-   margin-left: 20%;
+   margin-left: 23%;
    margin-top:30px ;
     width: 180px;
     height: 120px;
+    margin-bottom: 20px;
   }
   
   .logo_container img{
     border: 2px solid white;
-    width: 180px;
-    height: 120px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
   }
   .description_container {
@@ -90,8 +69,9 @@
   
   .personal_code_container {
     height: 110px;
-    margin-top: 10px;
-    background-color: rgba(49, 49, 49, 0.2);
+    margin-top: 30px;
+    background: none;
+    background-color: rgba(35, 35, 35, 0.2);
     border-radius: 15px;
     display: flex;
     flex-direction: column;
@@ -100,6 +80,7 @@
   
   .personal_code_title_container {
     padding: 0 25px;
+
   }
   
   .personal_code_title_paragraph {
@@ -133,12 +114,11 @@
   .personal_code_connecting_container {
     display: flex;
     flex-direction: column;
-    margin-top: 10px;
+    margin-top: -10px;
   }
   
   .personal_code_connecting_paragraph {
     font-weight: 500;
-    font-size: 18px;
   }
   
   .personal_code_connecting_input_container {
@@ -151,19 +131,20 @@
   }
   
   .personal_code_input {
-    width: 100%;
+    width: 50%;
     height: 100%;
-    background: rgba(196, 196, 196, 0.2);
+    background-color:white;
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.5);
-    color: white;
+    color: black;
     padding: 0 20px;
+
   }
   
   .personal_code_connecting_buttons_container {
     margin-top: 30px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
   }
   #sendtogmail{
     font-weight: bold;
@@ -171,13 +152,21 @@
 
   
   .connecting_button {
-    width: calc(50% - 10px);
-    height: 55px;
+    width: 70px;
+    height: 70px;
+
     background: white;
-    border-radius: 15px;
+    border-radius: 50%;
     transition: 0.5s;
+    padding: 0px;
   }
   
+  .connecting_buttons_image{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    
+  }
   
   .checkbox_container {
     display: flex;
@@ -196,12 +185,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    display: none;
   }
   
   .checkbox_container_paragraph {
     font-weight: 500;
     font-size: 16px;
     margin-left: 15px;
+    display: none;
   }
   
   .connecting_buttons_image {
@@ -460,4 +451,31 @@
     cursor: pointer;
     background-color: white;
     color: black;
+  }
+
+  .description_container{
+    margin-top: 50px;
+  }
+  #instructionhead{
+    font-size: 20px;
+  }
+
+  #notificationDiv{
+    margin-top: 20px;
+    
+  }
+  #notificationDiv button{
+    width: 90%;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: white;
+    border: none;
+    color: black;
+    font-weight: bold;
+  }
+
+  #notificationDiv button:hover{
+    cursor: pointer;
+    background-color: red;
+    color: white;
   }

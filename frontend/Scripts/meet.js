@@ -160,3 +160,94 @@ const sendMessageButton= document.getElementById('send_message_button');
       await swal("Server Error!", "Sorry :(, There is error in Server!", "error");
   }
   }
+
+  const params = new URLSearchParams(window.location.search)
+  const meetingIDVal = params.get('meetingID');
+const roleValue = params.get('role');
+
+
+if(roleValue=="patient"){
+  let perSonalCont=document.getElementById("personalCodeCont")
+  let gmailInputCont=document.getElementById("gmailInputCont")
+  let otherPersonCodeHead=document.getElementById("otherPersonCodeHead")
+  let personalCodeInputPlaceholder=document.getElementById("personal_code_input")
+  let instructionhead=document.getElementById("instructionhead")
+  let allIntructions=document.getElementById("allIntructions")
+  let notificationDiv=document.getElementById("notificationDiv")
+  perSonalCont.style.display='none'
+  gmailInputCont.style.display='none'
+  otherPersonCodeHead.innerHTML=`
+  <b>- Enter Doctor's meeting code here:</b>
+  `
+  personalCodeInputPlaceholder.placeholder = 'Enter code here which is send by doctor';
+  instructionhead.innerHTML=`
+  <b>Intructions for Patients:</b>
+  `
+  allIntructions.innerHTML=`
+  <li>Check your mail which is send by doctor within 5 minutes.</li>
+  <p></p>
+  <li>Copy Meeting Code from that mail and click on join meeting button.</li>
+  <p></p>
+  <li>Wait for 5 to 10 minutes to receive mail from doctor.</li>
+  <p></p>
+  <li>Once you close the window or go back then you are not able to attend this meet again.</li>
+  <p></p>
+  <li>If you don't receive mail from doctor then you can click on below button to send notification to doctor.(In Emergency Only)</li>
+  `
+  notificationDiv.innerHTML=`
+  <button id='notificationbtnforpatient'>Send Notification to Doctor</button>
+  `
+  let notificationbtnforpatient=document.getElementById('notificationbtnforpatient')
+  notificationbtnforpatient.addEventListener("click",(e)=>{
+    sendNotification()
+  })
+}else{
+  let instructionhead=document.getElementById("instructionhead")
+  let allIntructions=document.getElementById("allIntructions")
+  let personalCodeIp=document.getElementById("personal_code_input")
+  let joinorrejectbtn=document.getElementById("joinorrejectbtn")
+  let notificationDiv=document.getElementById("notificationDiv")
+
+  instructionhead.innerHTML=`
+  <b>Intructions for Doctors:</b>
+  `
+  allIntructions.innerHTML=`
+  <li>Copy your meeting code and paste it into below box and and click on send button.</li>
+  <p></p>
+  <li>Wait for sometime (5 to 10 min.). You will receive call from patient side.</li>
+  <p></p>
+  <li>If user not join meet on time then you can send notification to user using below emergecy notification button </li>
+  <p></p>
+  `
+  personalCodeIp.style.display='none'
+  joinorrejectbtn.style.display='none'
+  notificationDiv.innerHTML=`
+  <button id='notificationbtnfordoctor'>Send Notification to Patient</button>
+  `
+  let notificationbtnfordoctor=document.getElementById('notificationbtnfordoctor')
+  notificationbtnfordoctor.addEventListener("click",(e)=>{
+    sendNotification()
+  })
+}
+
+async function sendNotification(){
+  try {
+    let url=await fetch(`${mainAPI}/meetings/notification/${meetingIDVal}`,{
+    method:"POST",
+    headers:{
+        "Content-Type": "application/json",
+        authorization:`Bearer ${token}`
+    }
+})
+
+let temp= await url.json()
+    if(temp.status==401 || temp.status==400){
+        await swal("Server Error!", `Sorry :(, ${temp.message}`, "error");
+    }else{
+        await swal("Successful!", `${temp.Message}`, "success");
+    }
+} catch (error) {
+    console.log(error.message)
+    await swal("Server Error!", "Sorry :(, There is error in Server!", "error");
+}
+}

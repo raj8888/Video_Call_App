@@ -17,12 +17,7 @@
                 <img id="image_logo" src='../Images/logo.png'></img>
             </div>
             <div>
-                <div class='description_container'>
-                    <p class='description_container_paragraph'>
-                        Copy the meeting code and send to gmail to start meeting.
-                    </p>
-                </div>
-                <div class='personal_code_container'>
+                <div class='personal_code_container' id="personalCodeCont">
                     <div class='personal_code_title_container'>
                         <p class='personal_code_title_paragraph'>
                             Your Meeting code:
@@ -35,17 +30,28 @@
                         </button>
                     </div>
                 </div>
+                <div class='description_container'>
+                    <p class='description_container_paragraph'
+                    id="instructionhead">
+                        Copy the meeting code and send to gmail to start meeting.
+                    </p>
+                </div>
                 </div>
                 <div class='personal_code_connecting_container'>
-                    <p class='personal_code_connecting_paragraph'>Enter Other Person Meeting Code:</p>
+                    <div id="allIntructions">
+                        
+                    </div>
+                    <div class='personal_code_connecting_input_container' id="gmailInputCont" style="margin-top: 10px; ">
+                        <input class='personal_code_input' id='sendtogmailcode'  placeholder="Send code to gmail..." ></input>
+                        <button id="sendtogmail" style="background-color: rgb(30, 30, 30);padding: 12px;border-radius: 10px; color: white;">sendToGmail</button>
+                    </div>
+                    <p class='personal_code_connecting_paragraph' id="otherPersonCodeHead">
+                        
+                    </p>
                     <div class='personal_code_connecting_input_container'>
                         <input class='personal_code_input' id='personal_code_input' placeholder="Enter Other persons code here..." style="background-color: white;color: black;width: 80%;"></input>
                     </div>
-                    <div class='personal_code_connecting_input_container' style="margin-top: 10px; ">
-                        <input class='personal_code_input' id='sendtogmailcode' style="width: 50%;background-color:white;color: black;" placeholder="Send code to gmail..." ></input>
-                        <button id="sendtogmail" style="background-color: rgb(30, 30, 30);padding: 12px;border-radius: 10px; color: white;">sendToGmail</button>
-                    </div>
-                    <div class='personal_code_connecting_buttons_container'>
+                    <div class='personal_code_connecting_buttons_container' id="joinorrejectbtn">
                         <button class='connecting_button' id='personal_code_chat_button'>
                             <img src='../Images/chatButton.png' class='connecting_buttons_image'></img>
                         </button>
@@ -53,6 +59,7 @@
                             <img src='../Images/videoButton.png' class='connecting_buttons_image'></img>
                         </button>
                     </div>
+                    <div id='notificationDiv'></div>
                 </div>
 
                 <div class='checkbox_container'>

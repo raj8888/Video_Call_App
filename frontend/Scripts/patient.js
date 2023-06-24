@@ -230,9 +230,10 @@ async function renderAllMeetings(temp){
     joinbtn.forEach(elem=>{
         elem.addEventListener('click',async(event)=>{
             let meetId = event.target.dataset.id;
-            let ans=await checkMeetStartOrNot(meetId)
+            // let ans=await checkMeetStartOrNot(meetId)
+            let ans=true
             if(ans){
-                const joinUrl = `../Pages/meet.html?meetingID=`+meetId;
+                const joinUrl = `../Pages/meet.html?meetingID=${meetId}&role=patient`;
                 window.location.href = joinUrl;
             }else{
                 await swal("Error!", "Sorry :(, Time and Date didn't match to start meeting", "error");
