@@ -9,7 +9,7 @@ const {authorization}=require("../middlewares/authorization.middleware")
 const meetingRouter = express.Router()
 meetingRouter.use(authenticator)
 
-meetingRouter.post("/bookmeeting",authorization(['admin','patient']),async(req,res)=>{
+meetingRouter.post("/patients/appointment",authorization(['admin','patient']),async(req,res)=>{
     try {
         let meetingDate=req.body.meetingDate
         let meetingTime=req.body.meetingTime
@@ -22,19 +22,49 @@ meetingRouter.post("/bookmeeting",authorization(['admin','patient']),async(req,r
             concerns:concerns,
             meetingTime:meetingTime,
             meetingDate:meetingDate,
+            appointmentStatus:'pending',
             completed:false
         })
         let patient=await patientModel.findOne({_id:patientID})
         let doctor=await doctorModel.findOne({_id:doctorID})
         let meeting=await newwmeeting.save()
-        let task='create'
+        let task='createappointment'
         mailerMeetingDetail(doctor,patient,meeting,task)
-        res.status(200).send({"Message":"Meeting Successfully created."})
+        res.status(200).send({"Message":"Appointment message send successfully"})
     } catch (error) {
             console.log(error.message)
             res.status(400).send({"message":"Sorry :( , Server Error"})
     }
 })
+
+meetingRouter.post("/doctor/appointment/:meetingID",authorization(['admin','doctor']),async(req,res)=>{
+    try {
+        let meetingID=req.params.meetingID
+        let status=req.body.appointmentStatus
+        let meeting=await meetingModel.findById(meetingID)
+        let patientID=meeting.patinetID
+        let doctorID=meeting.doctorID
+        let patient=await patientModel.findOne({_id:patientID})
+        let doctor=await doctorModel.findOne({_id:doctorID})
+        if(status==='accept'){
+        await meetingModel.findByIdAndUpdate({_id:meetingID},{appointmentStatus:'accept'})
+        let task='createmeeting'
+        mailerMeetingDetail(doctor,patient,meeting,task)
+        res.status(200).send({"Message":"Meeting Successfully created."})
+       }else{
+        let task='cancelappointment'
+        mailerMeetingDetail(doctor,patient,meeting,task)
+        await meetingModel.findByIdAndUpdate({_id:meetingID},{appointmentStatus:'reject'})
+        res.status(200).send({"Message":"Sorry :( , Appointement rejected by doctor. Please select different date and time for meeting."})
+       }
+        
+    } catch (error) {
+            console.log(error.message)
+            res.status(400).send({"message":"Sorry :( , Server Error"})
+    }
+})
+
+
 
 meetingRouter.get("/all/doctor",authorization(['admin','doctor']),async(req,res)=>{
     try {
@@ -61,8 +91,19 @@ meetingRouter.get("/all/patient",authorization(['admin','patient']),async(req,re
 meetingRouter.get("/patients/all",authorization(['admin','patient']),async(req,res)=>{
     try {
         let patientID=req.body.userID
-        let meetings=await meetingModel.find({patinetID:patientID})
+        let meetings=await meetingModel.find({patinetID:patientID,appointmentStatus:'accept'})
         res.status(201).send({"message":"Patient all meeting",'meetings':meetings})
+    } catch (error) {
+        console.log(error.message)
+        res.status(400).send({"message":"Sorry :( , Server Error"})
+    }
+})
+
+meetingRouter.get("/doctors/appointment",authorization(['admin','doctor']),async(req,res)=>{
+    try {
+        let doctorID=req.body.userID
+        let appointments=await meetingModel.find({doctorID:doctorID,appointmentStatus:'pending'})
+        res.status(201).send({"message":"All appointments of doctor.",'appointments':appointments})
     } catch (error) {
         console.log(error.message)
         res.status(400).send({"message":"Sorry :( , Server Error"})
@@ -73,7 +114,7 @@ meetingRouter.get("/patients/all",authorization(['admin','patient']),async(req,r
 meetingRouter.get("/doctors/all",authorization(['admin','doctor']),async(req,res)=>{
     try {
         let doctorID=req.body.userID
-        let meetings=await meetingModel.find({doctorID:doctorID})
+        let meetings=await meetingModel.find({doctorID:doctorID,appointmentStatus:'accept'})
         res.status(201).send({"message":"Doctor all meeting",'meetings':meetings})
     } catch (error) {
         console.log(error.message)

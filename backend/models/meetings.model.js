@@ -6,6 +6,7 @@ const meetingSchema = mongoose.Schema({
     concerns:String,
     meetingTime:String,
     meetingDate:String,
+    appointmentStatus:String,
     completed:Boolean
 })
 
