@@ -9,8 +9,8 @@ let allApps=document.getElementById("allApps")
 
 let showname=document.getElementById("name-container")
 
-// let mainAPI="https://video-call-backend-i5df.onrender.com"
-let mainAPI="http://localhost:4500"
+let mainAPI="https://video-call-backend-i5df.onrender.com"
+// let mainAPI="http://localhost:4500"
 
 getAllDoctors()
 async function getAllDoctors(){
