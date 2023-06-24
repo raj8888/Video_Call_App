@@ -70,8 +70,8 @@ function renderAllMeeting(temp){
         joinbtn.forEach(elem=>{
             elem.addEventListener('click',async(event)=>{
                 let meetId = event.target.dataset.id;
-                // let ans=await checkMeetStartOrNot(meetId)
-                let ans=true
+                let ans=await checkMeetStartOrNot(meetId)
+                // let ans=true
                 if(ans){
                     const joinUrl = `../Pages/meet.html?meetingID=${meetId}&role=doctor`;
                     window.location.href = joinUrl;
