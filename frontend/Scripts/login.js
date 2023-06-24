@@ -1,7 +1,8 @@
 let signupForm = document.querySelector(".signup-form form");
 let toast=document.getElementById("toast")
 
-let mainAPI="https://video-call-backend-i5df.onrender.com"
+// let mainAPI="https://video-call-backend-i5df.onrender.com"
+let mainAPI="http://localhost:4500"
 
 signupForm.addEventListener("submit",async(e)=>{
     e.preventDefault()

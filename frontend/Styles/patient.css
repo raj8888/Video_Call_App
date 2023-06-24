@@ -60,7 +60,7 @@ a {
     
     .menu li:hover {
     
-    background-color: #b8d8d4;
+    background-color: #f18080;
     
     border-radius: 5px;
     
@@ -78,7 +78,7 @@ a {
         color: black;
     }
     .menu li:hover a{
-        color: white;
+        color: black;
     }
     
     /* DROPDOWN MENU */
@@ -346,6 +346,7 @@ a {
 .doctors{
     background-color: white;
     height: 150px;
+    max-height: 200px;
     padding: 5px;
 }
 
@@ -399,6 +400,7 @@ a {
   .meetings{
     background-color: white;
     height: 220px;
+    max-height: 250px;
     padding: 5px;
   }
 
@@ -411,7 +413,7 @@ a {
     background-color: white;
     color: black;
   }
-  .updatebtn:hover,.deletebtn:hover.joinmeet:hover{
+  .updatebtn:hover,.deletebtn:hover,.joinmeet:hover{
     cursor: pointer;
     background-color: black;
     color: white;
@@ -419,4 +421,8 @@ a {
 
   #up-btn-meet{
     display: none;
+  }
+  .appointmentstatus{
+    padding: 5px;
+    border-radius: 2px;
   }

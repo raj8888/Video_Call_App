@@ -3,9 +3,14 @@ if(!token){
     window.location.assign("./login.html");
 }
 
+let allDocs=document.getElementById("allDocs")
+let allMeets=document.getElementById("allMeets")
+let allApps=document.getElementById("allApps")
+
 let showname=document.getElementById("name-container")
 
-let mainAPI="https://video-call-backend-i5df.onrender.com"
+// let mainAPI="https://video-call-backend-i5df.onrender.com"
+let mainAPI="http://localhost:4500"
 
 getAllDoctors()
 async function getAllDoctors(){
@@ -31,6 +36,9 @@ async function getAllDoctors(){
 }
 
 function renderAllDoctors(docs){
+    allDocs.style.backgroundColor='#f18080'
+    allMeets.style.backgroundColor='white'
+    allApps.style.backgroundColor='white'
     let tempData=docs.map(elem=>{
       return  `
         <div class="doctors">
@@ -100,12 +108,12 @@ createMeetbtn.addEventListener("click",(e)=>{
         let meetingTime=document.querySelector(".time").value
         let concerns=document.querySelector(".concerns").value
         let obj={meetingDate,meetingTime,doctorID,concerns}
-        createMeet(obj)
+        createAppointment(obj)
 })
 
-async function createMeet(obj){
+async function createAppointment(obj){
     try {
-        let url=await fetch(`${mainAPI}/meetings/bookmeeting`,{
+        let url=await fetch(`${mainAPI}/meetings/patients/appointment`,{
         method:"POST",
         headers:{
             "Content-Type": "application/json",
@@ -115,10 +123,16 @@ async function createMeet(obj){
     })
 
     let temp= await url.json()
+    console.log(temp)
         if(temp.status==401 || temp.status==400){
             await swal("Server Error!", `Sorry :(, ${temp.message}`, "error");
         }else{
-            await swal("Successful!", "Meeting Created Successfully", "success");
+            document.getElementById("doctor-id").value=''
+            document.getElementById("date").value=''
+            document.getElementById("time").value=''
+            document.getElementById("concerns").value=''
+            await swal("Successful!", "Appointment Send to doctor successfully", "success");
+            getAllAppsForShow()
         }
     } catch (error) {
         console.log(error.message)
@@ -152,7 +166,16 @@ async function getAllMeeting(){
 
 
 async function renderAllMeetings(temp){
-
+    allDocs.style.backgroundColor='white'
+    allMeets.style.backgroundColor='#f18080'
+    allApps.style.backgroundColor='white'
+    if(temp.length==0){
+        let dochead=document.getElementById("all-doc-head")
+        dochead.innerText='Meeting is not created by you till now.'
+        let showAllMeet=document.getElementById("show-all_docs")
+        showAllMeet.style.display="none"
+    }else{
+    
     let tempData=temp.map(elem=>{
         return `
         <div class="meetings">
@@ -216,6 +239,7 @@ async function renderAllMeetings(temp){
             }
         })
     })
+    }
 }
 
 async function getMetForUpdate(id){
@@ -254,7 +278,7 @@ async function deleteMeeting(id){
             await swal("Server Error!", `Sorry :(, ${temp.message}`, "error");
         }else{
             await swal("Deleted!", "Meeting Deleted Successfully", "success");
-            window.location.reload();
+            getAllMeeting()
         }
     } catch (error) {
         console.log(error.message)
@@ -313,7 +337,11 @@ async function updateNewData(obj,id){
             await swal("Server Error!", `Sorry :(, ${temp.message}`, "error");
         }else{
             await swal("Updated!", "Meeting Updated Successfully", "success");
-            window.location.reload();
+            document.getElementById("doctor-id").value=''
+            document.getElementById("date").value=''
+            document.getElementById("time").value=''
+            document.getElementById("concerns").value=''
+            getAllMeeting()
         }
     } catch (error) {
         console.log(error.message)
@@ -358,5 +386,83 @@ async function checkMeetStartOrNot(meetID){
     } catch (error) {
         console.log(error.message)
         await swal("Server Error!", "Sorry :(, There is error in Server!", "error");
+    }
+}
+
+
+async function getAllAppsForShow(){
+    try {
+        let url=await fetch(`${mainAPI}/meetings/all/patient`,{
+        method:"GET",
+        headers:{
+            authorization:`Bearer ${token}`
+        }
+    })
+
+    let temp= await url.json()
+        if(temp.status==401 || temp.status==400){
+            await swal("Server Error!", `Sorry :(, ${temp.message}`, "error");
+        }else{
+           let appointments=temp.meetings 
+           renderAllAppointsForStatus(appointments)
+        }
+    } catch (error) {
+        console.log(error.message)
+        await swal("Server Error!", "Sorry :(, There is error in Server!", "error");
+    }
+}
+
+ function renderAllAppointsForStatus(temp){
+    allDocs.style.backgroundColor='white'
+    allMeets.style.backgroundColor='white'
+    allApps.style.backgroundColor='#f18080'
+    let searchSec=document.getElementById("seatch-fun")
+    searchSec.style.display='none'
+    if(temp.length==0){
+        let dochead=document.getElementById("all-doc-head")
+        dochead.innerText='Apppointments is not created by you till now.'
+        let showAllMeet=document.getElementById("show-all_docs")
+        showAllMeet.style.display="none"
+    }else{
+    let tempData=temp.map(elem=>{
+        let flag=elem.appointmentStatus
+        let status;
+        if(flag=='accept'){
+            status='Accepted'
+        }else if(flag=='reject'){
+            status='Rejected'
+        }else if(flag=='pending'){
+            status='Pending'
+        }
+        return `
+        <div class="meetings">
+                    <p>- <b>DoctorID:</b></p>
+                    <p>${elem.doctorID}</p>
+                    <p>- <b>Concerns:</b></p>
+                    <p>${elem.concerns}</p>
+                    <p>- <b>meetingID:</b></p>
+                    <p>${elem._id}</p>
+                    <p>- <b>MeetingDate:</b></p>
+                    <p>${elem.meetingDate}</p>
+                    <p>- <b>MeetingTime:</b></p>
+                    <p>${elem.meetingTime}</p>
+                    <div class='appointmentstatus' style= "background-color:${flag === 'accept' ? 'rgb(27, 176, 27)' : flag === 'reject' ? 'rgb(254, 41, 41)' : 'rgb(255, 200, 0)'}">
+                    ${status}
+                    </div>
+                    
+        </div>
+        `
+    })
+    let rendermid=document.getElementById("rendermid")
+    rendermid.innerHTML=`
+    <h3 id="all-doc-head"></h3>
+    <div id="show-all_docs">
+                    
+    </div>
+    `
+    let showAllMeet=document.getElementById("show-all_docs")
+    showAllMeet.innerHTML=tempData.join("")
+    let dochead=document.getElementById("all-doc-head")
+    dochead.innerText='All Appointment List'
     }
 }

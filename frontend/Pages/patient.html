@@ -28,15 +28,14 @@
         
                 <div class="menu">
             
-                    <li><a href="./patient.html">Home</a></li>
+                    <li id="allDocs"><a href="#" onclick="getAllDoctors()">All Doctors</a></li>
             
-                    <li><a href="#" onclick="getAllDoctors()">See All Doctors</a></li>
-            
-                    <li><a href="#">Create Meeting</a></li>
-            
-                    <li><a href="#" onclick="getAllMeeting()">See All Meetings</a></li>
+                    <li id="allMeets"><a href="#" onclick="getAllMeeting()">All Meetings</a></li>
 
-                    <li><a href="./login.html" onclick="logoutFun()">Logout</a></li>
+
+                    <li id="allApps"><a href="#" onclick="getAllAppsForShow()">All Appointments</a></li>
+
+                    <li id="home"><a href="./login.html" onclick="logoutFun()">Logout</a></li>
             
                 </div>
         
@@ -62,7 +61,7 @@
 
 
         <div id="sec-mid-cont">
-            <h2 id="create-head-meet">Create Meeting Form</h2>
+            <h2 id="create-head-meet">Appointment Form</h2>
             <form id="meetform" class="meetform">
                 <div>
                     <label for="doctor-id">Enter DoctorID:</label>
@@ -79,7 +78,7 @@
                     <label for="concerns">Enter Your Concerns:</label>
                     <textarea rows="8" type="text" id="concerns" class="concerns" placeholder="Enter your concerns here..."></textarea>
                 </div>
-                <button type="submit" id="cr-btn-meet">Create Meeting</button>
+                <button type="submit" id="cr-btn-meet">Book Appointment</button>
                 <button type="submit" id="up-btn-meet">Update Meeting</button>
             </form>
         </div>

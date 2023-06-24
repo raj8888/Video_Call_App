@@ -60,7 +60,7 @@ a {
     
     .menu li:hover {
     
-    background-color: #b8d8d4;
+    background-color: #f18080;
     
     border-radius: 5px;
     
@@ -78,7 +78,7 @@ a {
         color: black;
     }
     .menu li:hover a{
-        color: white;
+        color: black;
     }
     
     /* DROPDOWN MENU */
@@ -310,7 +310,6 @@ a {
 
 .meetings{
     background-color: white;
-    height: 220px;
     padding: 5px;
 }
 
@@ -327,4 +326,40 @@ a {
     cursor: pointer;
     background-color: black;
     color: white;
+  }
+
+  .appointments{
+    background-color: white;
+    /* height: 220px; */
+
+    padding: 5px;
+  }
+  .appintmentsbtns{
+    margin-top: 10px;
+  }
+  .accept{
+    padding: 5px 10px;
+    background-color: rgb(2, 178, 2);
+    color: black;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+  }
+
+  .reject{
+    padding: 5px 10px;
+    background-color: red;
+    color: black;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+  }
+
+  .accept:hover{
+    background-color: rgb(6, 234, 6);
+    cursor: pointer;
+  }
+  .reject:hover{
+    background-color: rgb(253, 56, 56);
+    cursor: pointer;
   }

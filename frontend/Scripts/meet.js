@@ -5,11 +5,13 @@ import * as change from "./change.js"
 
 let token=JSON.parse(sessionStorage.getItem("vedmedtoken"))
 if(!token){
-    window.location.assign("./login.html");
+  window.location.assign("./login.html");
 }
 
+// let mainAPI="https://video-call-backend-i5df.onrender.com"
+let mainAPI="http://localhost:4500"
 
-const socket = io("https://video-call-backend-i5df.onrender.com", { transports: ["websocket"] });
+const socket = io(`${mainAPI}`, { transports: ["websocket"] });
 //registering event for socketId
 event.registerSocketEvent(socket);
 
@@ -135,7 +137,6 @@ const sendMessageButton= document.getElementById('send_message_button');
     sendMailOfMeetingCode(obj)
   })
 
-  let mainAPI="https://video-call-backend-i5df.onrender.com"
 
   async function sendMailOfMeetingCode(obj){
     try {
