@@ -243,9 +243,6 @@ meetingRouter.get("/checktime/:meetingID",authorization(['admin','patient','doct
         }else if(getTodayDate=="greater"){
             res.status(200).send({"Message":"Your appointment date not come yet.Please wait.","flag":false})
         }else{
-            console.log(currentTime < earlierTime)
-            console.log(currentTime > laterTime)
-            console.log(currentTime,earlierTime,laterTime)
              if (currentTime < earlierTime) {
                 res.status(200).send({"Message":"Your appointment time not come yet.Please wait.","flag":false})
              }else if(currentTime > laterTime){
@@ -260,6 +257,19 @@ meetingRouter.get("/checktime/:meetingID",authorization(['admin','patient','doct
         res.status(400).send({"message":"Sorry :( , Server Error"})
     }
 })
+
+// meetingRouter.get("/single/doctor",authorization(['admin','doctor']),async(req,res)=>{
+//     try {
+//         let doctorID=req.body.userID
+//         console.log(req.body)
+//         let doctorData=await doctorModel.findById(doctorID)
+//         res.status(200).send({"Message":"Here is your docor data","doctorData":doctorData})
+//     } catch (error) {
+//         console.log(req.body)
+//         console.log(error.message)
+//         res.status(400).send({"message":"Sorry :( , Server Error"})
+//     }
+// })
 
 // Calculate the time 5 minutes later than the current time
 function getLaterTime(currentTime) {

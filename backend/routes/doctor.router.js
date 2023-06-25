@@ -9,6 +9,8 @@ const {authorization}=require("../middlewares/authorization.middleware")
 
 const doctorRouter = express.Router()
 
+
+
 doctorRouter.post("/register", async (req, res) => {
     let inputData = req.body
     if (!inputData.email || !inputData.mobile || !inputData.name || !inputData.password || !inputData.role) {
@@ -89,6 +91,30 @@ doctorRouter.post("/login",async(req,res)=>{
 
 doctorRouter.use(authenticator)
 
+doctorRouter.get("/single/doctorinfo",async(req,res)=>{
+    try {
+        let doctorID=req.body.userID
+        let doctorData=await doctorModel.findById(doctorID)
+        res.status(200).send({"Message":"Here is your doctor data","doctorData":doctorData})
+    } catch (error) {
+
+        console.log(error.message)
+        res.status(400).send({"message":"Sorry :( , Server Error"})
+    }
+})
+
+doctorRouter.patch("/update/specialization",async(req,res)=>{
+    try {
+        let areaOfSpecialization=req.body.areaOfSpecialization
+        let doctorID=req.body.userID
+        await doctorModel.findByIdAndUpdate({_id:doctorID},{areaOfSpecialization:areaOfSpecialization})
+        res.status(200).send({"Message":"Specialization updated successfully"})
+    } catch (error) {
+        console.log(error.message)
+        res.status(400).send({"message":"Sorry :( , Server Error"})
+    }
+})
+
 doctorRouter.get("/all",authorization(['admin','patient']),async(req,res)=>{
     try {
             let allDoctors=await doctorModel.find()
@@ -125,6 +151,9 @@ doctorRouter.post("/search",authorization(['admin','patient']),async(req,res)=>{
         res.status(400).send({"message":"Sorry :( , Server Error"})
     }
 })
+
+
+
 module.exports={
     doctorRouter
 }
