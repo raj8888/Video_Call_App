@@ -8,8 +8,8 @@ if(!token){
   window.location.assign("./login.html");
 }
 
-// let mainAPI="https://video-call-backend-i5df.onrender.com"
-let mainAPI="http://localhost:4500"
+let mainAPI="https://video-call-backend-i5df.onrender.com"
+// let mainAPI="http://localhost:4500"
 
 const socket = io(`${mainAPI}`, { transports: ["websocket"] });
 //registering event for socketId

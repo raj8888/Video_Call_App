@@ -2,8 +2,8 @@ let token=JSON.parse(sessionStorage.getItem("vedmedtoken"))
 if(!token){
     window.location.assign("./login.html");
 }
-// let mainAPI="https://video-call-backend-i5df.onrender.com"
-let mainAPI="http://localhost:4500"
+let mainAPI="https://video-call-backend-i5df.onrender.com"
+// let mainAPI="http://localhost:4500"
 let allmeetings=document.getElementById("allmeetings")
 let allMeets=document.getElementById("allMeets")
 let allApp=document.getElementById("allApp")
