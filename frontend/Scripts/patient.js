@@ -9,8 +9,8 @@ let allApps=document.getElementById("allApps")
 
 let showname=document.getElementById("name-container")
 
-let mainAPI="https://video-call-backend-i5df.onrender.com"
-// let mainAPI="http://localhost:4500"
+// let mainAPI="https://video-call-backend-i5df.onrender.com"
+let mainAPI="http://localhost:4500"
 
 getAllDoctors()
 async function getAllDoctors(){
@@ -232,11 +232,12 @@ async function renderAllMeetings(temp){
             let meetId = event.target.dataset.id;
             let ans=await checkMeetStartOrNot(meetId)
             // let ans=true
-            if(ans){
+            // let arr=[temp.flag,temp.Message]
+            if(ans[0]==true){
                 const joinUrl = `../Pages/meet.html?meetingID=${meetId}&role=patient`;
                 window.location.href = joinUrl;
             }else{
-                await swal("Error!", "Sorry :(, Time and Date didn't match to start meeting", "error");
+                await swal("Error!", `${ans[1]}`, "error");
             }
         })
     })
@@ -352,7 +353,7 @@ async function updateNewData(obj,id){
 
 async function checkMeetStartOrNot(meetID){
     try {
-        let url=await fetch(`${mainAPI}/meetings/single/${meetID}`,{
+        let url=await fetch(`${mainAPI}/meetings/checktime/${meetID}`,{
         method:"GET",
         headers:{
             authorization:`Bearer ${token}`
@@ -362,27 +363,9 @@ async function checkMeetStartOrNot(meetID){
     let temp= await url.json()
         if(temp.status==401 || temp.status==400){
             await swal("Server Error!", `Sorry :(, ${temp.message}`, "error");
-        }else{
-           let meeting=temp.meetingData 
-           let date=meeting.meetingDate
-           let time=meeting.meetingTime
-           var currentDate = new Date();
-
-            // Format the date as "YYYY-MM-DD"
-            var year = currentDate.getFullYear();
-            var month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
-            var day = ('0' + currentDate.getDate()).slice(-2);
-            var formattedDate = year + '-' + month + '-' + day;
-
-            // Format the time as "HH:MM"
-            var hours = ('0' + currentDate.getHours()).slice(-2);
-            var minutes = ('0' + currentDate.getMinutes()).slice(-2);
-            var formattedTime = hours + ':' + minutes;
-            if(formattedDate==date && formattedTime==time){
-                return true
-            }else{
-                return false
-            }
+        }else{   
+           let arr=[temp.flag,temp.Message]
+           return arr   
         }
     } catch (error) {
         console.log(error.message)
