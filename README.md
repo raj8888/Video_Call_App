@@ -9,10 +9,12 @@ VedMed is a simple Video call and Chat app where patient can schedule a meetings
 - Authentication
 - Authorization
 - Mail Service
+- Appointment System
 - Create a Meeting
 - Real Time Chatting
-- Update and Delete Class
+- Update and Delete Meeting
 - Share Screen
+- Video Call
 
 
 ## Tech Stack
@@ -121,11 +123,25 @@ To run this project, you will need to add the following environment variables to
   POST /api/doctors/login
 ```
 
-**Only Admin can access following route**
+**Only Admin can access following routes**
 #### All doctors
 
 ```http
   GET /api/doctors/all
+```
+
+**Only Doctor can access following routes**
+#### Single doctors
+
+```http
+  GET /api/doctors/single/doctorinfo
+```
+
+**Only Doctor can access following routes**
+#### Update Area of Specialization
+
+```http
+  PATCH /api/doctors/update/specialization
 ```
 
 **Only Admin and Patient can access following route**
@@ -134,6 +150,7 @@ To run this project, you will need to add the following environment variables to
 ```http
   GET /api/doctors/single/:doctorID
 ```
+
 **Only Admin and Patient can access following route**
 #### Search Route
 
@@ -144,34 +161,48 @@ To run this project, you will need to add the following environment variables to
 ## For Meetings:
 
 **Only Admin and Patient can access following route**
-#### Search Route
+
+#### Fot Create Appointment
 
 ```http
-  POST /api/meetings/bookmeeting
+  POST /api/meetings/patients/appointment
 ```
 
-#### Fot Get All Doctors
+**Only Admin and Doctor can access following route**
+#### Fot Update Status Appointments
 
 ```http
-  GET /api/meetings/all/doctor
-```
-
-#### Fot Get All Patients
-
-```http
-  GET /api/meetings/all/Patients
+  POST /api/meetings/doctor/appointment/:meetingID
 ```
 
 #### Fot Get All Doctors Meetings
 
 ```http
-  GET /api/meetings/doctors/all
+  GET /api/meetings/all/doctor
 ```
 
 #### Fot Get All Patients Meetings
 
 ```http
+  GET /api/meetings/all/patient
+```
+
+#### Fot Get All Patients Meetings (Accepted by Doctor)
+
+```http
   GET /api/meetings/patients/all
+```
+
+#### Fot Get Pending Appointments for Doctr
+
+```http
+  GET /api/meetings/doctors/appointment
+```
+
+#### Fot Get All Doctors Meetings (Accepted by Doctor)
+
+```http
+  GET /api/meetings/doctors/all
 ```
 
 #### Fot Get Paticular Meeting
@@ -197,6 +228,16 @@ To run this project, you will need to add the following environment variables to
 #### SendMail To JoinMeet
 ```http
   POST /api/meetings/sendmail
+```
+
+#### SendMail of Emergency Notification to JoinMeet (Notification)
+```http
+  POST /api/meetings/notification/:meetingID
+```
+
+####  For Checking Time of Meet
+```http
+  POST /api/meetings/checktime/:meetingID
 ```
 
 **Authentication Required All Routes Except Login and Register**
@@ -248,23 +289,35 @@ const meetingSchema = mongoose.Schema({
 
 Patient Dashboard:(With See all doctors section)
 
-![App Screenshot](https://i.ibb.co/yBYP1Bj/Screenshot-351.png)
+![App Screenshot](https://i.ibb.co/hm3qh2S/Screenshot-356.png)
 
 Patient Dashboard:(With See all meetings section)
 
-![App Screenshot](https://i.ibb.co/bJLpLrj/Screenshot-352.png")
+![App Screenshot](https://i.ibb.co/34mXkpf/Screenshot-357.png)
 
-Doctor Dashboard:
+Patient Dashboard:(With See all appointments section)
 
-![App Screenshot](https://i.ibb.co/6RL04dS/Screenshot-353.png)
+![App Screenshot](https://i.ibb.co/vPnbQY9/Screenshot-358.png)
 
-Meeting Portal:
+Doctor Dashboard:(With See all meetings section)
 
-![App Screenshot](https://i.ibb.co/SNb1mv0/Screenshot-354.png)
+![App Screenshot](https://i.ibb.co/4KyCpW7/Screenshot-359.png)
+
+Doctor Dashboard:(With See all appointments section)
+
+![App Screenshot](https://i.ibb.co/bPJB3j7/Screenshot-360.png)
+
+Meeting Portal:(Doctor Side)
+
+![App Screenshot](https://i.ibb.co/dKxp0sD/Screenshot-361.png)
+
+Meeting Portal:(Patient Side)
+
+![App Screenshot](https://i.ibb.co/ZMmDhST/Screenshot-362.png)
 
 Video Call, Chat, MicOff, CameraOff, ShareScreen :
 
-![App Screenshot](https://i.ibb.co/C86NNNW/Screenshot-355.png)
+![App Screenshot](https://i.ibb.co/N7Fn1Hb/Screenshot-363.png)
 
 ## Frontend Part Instruntions:
 
@@ -273,33 +326,35 @@ Video Call, Chat, MicOff, CameraOff, ShareScreen :
 - First Register with your gmailID and login to account.
 - After Login you can see all doctors information.
 - On Navbar you have option of see all meetings.
-- For create meet you have to copy the doctorID of Particular doctor from doctors information and paste it to input bar. Then select date and time properly and enter you concern and click on create meet button.
+- For create Appointment you have to copy the doctorID of Particular doctor from doctors information and paste it to input bar. Then select date and time properly and enter you concern and click on create appointment button.
+- Wait for some time your appointment status will be updated by doctor.
+  Ex. If doctor accept you request then you can see as accepted status for rejected status will be rejected and for pending status will be pending
+- You can checkout your all appointments in all appointments section.
 - If you want to update meeting information then click on update button of that particular meeting. Then you will see all the information of that meeting on left side form. Update the information as per your requirement and click on update button.
 - If you want to delete meeting then just click on delete button.
 
-**You have only one minute to join meet**
+- You can join meet before 5 minutes or after 5 minutes only.
+- Otherwise you are not able to join meeet.
 - So, click on join button on time.
 - Then you can wait there for sometime to get mail of meetCode from doctor side.
 - Once you recieved mail then you can copy `meetingCode` from mail and paste on Enter other person code section. And click on join button.
 - Then you will get window to option for reject call but wait for some time to join doctor. If you want to decline call without meet then you can.
 - In meet you have option for micOff,cameraOff,chat,sharescree.
-- (In Emergency only)Otherwise you can copy your code and paste it on send gmail input bar and click on send button.And wait for joining of doctor.
+- If you wait for 5 to 10 minutes and doctor not joined meet then you can use send notification button to send mail to doctor to join meet.
 
 ### For Doctors:
 
 - First Register with your gmailID and login to account.
 - After Login you can see all yours meetings information.
-- If patient create meeting with you then you can see on platform
+- You will able to see all your pending appointements in all appointment section.
+- You can accept or reject request of patient according your schedule.
+- Once you accept the request then you can see all your meetings on all meetings section.
 
-**You have only one minute to join meet**
-- So, click on join button on time.
-- Then you have to copy your code and paste it on send gmail input bar and click on send button.And wait for joining of patient.
-- Then you will get window to option for reject call but wait for some time to join patient. If you want to decline call without meet then you can.
-- In meet you have option for micOff,cameraOff,chat,sharescree.
-- (In Emergenty) If you are let to join meet then you can check mail for get mail from patient side to join meet.
+
 
 **Important Note (For Doctors and Patients):**
-- You have to click on `join button` when you scheduled meeting and in one minute only then you can send code and attend meeting as per your time.
+- You have to click on `join button` when you scheduled meeting.
+- You can join meet within 5 minutes befor and 5 minutes after time of meet.
 - Once click on `join button` and you redirected to meeting portal if you click on back button or close window then you are not able to join the meet again. 
 
 **Both patient and doctor will receive mail notification for if patient create meet, update meet information or delete meet**
@@ -313,7 +368,7 @@ Video Call, Chat, MicOff, CameraOff, ShareScreen :
 
 ### For Doctors
 - EmailID : jadhavrj8888@gmail.com
-- Role    : doctors
+- Role    : doctor
 - Password: Raj@8080680
 
 ## Live Demo
