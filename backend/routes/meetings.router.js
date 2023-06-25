@@ -243,12 +243,13 @@ meetingRouter.get("/checktime/:meetingID",authorization(['admin','patient','doct
         }else if(getTodayDate=="greater"){
             res.status(200).send({"Message":"Your appointment date not come yet.Please wait.","flag":false})
         }else{
-             if (currentTime < earlierTime) {
-                res.status(200).send({"Message":"Your appointment time not come yet.Please wait.","flag":false})
+            console.log(currentTime)
+             if (currentTime >= earlierTime && currentTime <= laterTime) {
+                res.status(200).send({"Message":"You can join meet","flag":true})
              }else if(currentTime > laterTime){
                 res.status(200).send({"Message":"Your appointment time passed away.Please create another appointment.","flag":false})
-             }else if(currentTime >= earlierTime && currentTime <= laterTime){
-                res.status(200).send({"Message":"You can join meet","flag":true})
+             }else if( currentTime < earlierTime){
+                res.status(200).send({"Message":"Your appointment time not come yet.Please wait.","flag":false})
              }
         }
         
@@ -306,9 +307,9 @@ function getDate(date1, date2){
 
 function getCurrentTime() {
     const now = new Date();
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    return hours + ':' + minutes;
+    const options = { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Kolkata' };
+    const indianTime = now.toLocaleString('en-IN', options).slice(-5);
+    return indianTime;
   }
 
 module.exports={
