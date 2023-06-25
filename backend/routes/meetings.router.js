@@ -5,6 +5,7 @@ const { meetingModel } = require("../models/meetings.model")
 const {mailerMeetingDetail}=require("../config/mailler")
 const {authenticator}=require("../middlewares/authentication.middleware")
 const {authorization}=require("../middlewares/authorization.middleware")
+const { get } = require("mongoose")
 
 const meetingRouter = express.Router()
 meetingRouter.use(authenticator)
@@ -225,6 +226,81 @@ meetingRouter.post("/notification/:meetingID",async(req,res)=>{
         res.status(400).send({"message":"Sorry :( , Server Error"})
     }
 })
+
+meetingRouter.get("/checktime/:meetingID",authorization(['admin','patient','doctor']),async(req,res)=>{
+    try {
+        let meetingID=req.params.meetingID
+        let meetingData=await meetingModel.findById(meetingID)
+        let date=meetingData.meetingDate
+        let time=meetingData.meetingTime
+        const currentDate = new Date().toISOString().split('T')[0];
+        let currentTime=getCurrentTime()
+        let laterTime =getLaterTime(time)
+        let earlierTime =getEarlierTime(time)
+        let getTodayDate=getDate(date,currentDate)
+        if(getTodayDate=="smaller"){
+            res.status(200).send({"Message":"Your appointment date passed away.Please create another appointment.","flag":false})
+        }else if(getTodayDate=="greater"){
+            res.status(200).send({"Message":"Your appointment date not come yet.Please wait.","flag":false})
+        }else{
+            console.log(currentTime < earlierTime)
+            console.log(currentTime > laterTime)
+            console.log(currentTime,earlierTime,laterTime)
+             if (currentTime < earlierTime) {
+                res.status(200).send({"Message":"Your appointment time not come yet.Please wait.","flag":false})
+             }else if(currentTime > laterTime){
+                res.status(200).send({"Message":"Your appointment time passed away.Please create another appointment.","flag":false})
+             }else if(currentTime >= earlierTime && currentTime <= laterTime){
+                res.status(200).send({"Message":"You can join meet","flag":true})
+             }
+        }
+        
+    } catch (error) {
+        console.log(error.message)
+        res.status(400).send({"message":"Sorry :( , Server Error"})
+    }
+})
+
+// Calculate the time 5 minutes later than the current time
+function getLaterTime(currentTime) {
+  const [hours, minutes] = currentTime.split(':');
+  const laterMinutes = parseInt(minutes) + 5;
+  const laterHours = parseInt(hours) + Math.floor(laterMinutes / 60);
+  const formattedHours = String(laterHours).padStart(2, '0');
+  const formattedMinutes = String(laterMinutes % 60).padStart(2, '0');
+  return formattedHours + ':' + formattedMinutes;
+}
+
+// Calculate the time 5 minutes earlier than the current time
+function getEarlierTime(currentTime) {
+  const [hours, minutes] = currentTime.split(':');
+  const earlierMinutes = parseInt(minutes) - 5;
+  const earlierHours = parseInt(hours) + Math.floor(earlierMinutes / 60);
+  const formattedHours = String(earlierHours).padStart(2, '0');
+  const formattedMinutes = String(earlierMinutes % 60).padStart(2, '0');
+  return formattedHours + ':' + formattedMinutes;
+}
+
+function getDate(date1, date2){
+  const timestamp1 = new Date(date1).getTime();
+  const timestamp2 = new Date(date2).getTime();
+
+  if (timestamp1 < timestamp2) {
+    return 'smaller';
+  } else if (timestamp1 > timestamp2) {
+    return 'greater';
+  } else {
+    return 'equal';
+  }
+}
+
+function getCurrentTime() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    return hours + ':' + minutes;
+  }
+
 module.exports={
     meetingRouter
 }
