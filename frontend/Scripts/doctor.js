@@ -213,3 +213,81 @@ async function checkMeetStartOrNot(meetID){
         await swal("Server Error!", "Sorry :(, There is error in Server!", "error");
     }
 }
+
+getDoctorData()
+
+async function getDoctorData(){
+    try {
+        let url=await fetch(`${mainAPI}/doctors/single/doctorinfo`,{
+        method:"GET",
+        headers:{
+            authorization:`Bearer ${token}`
+        }
+    })
+
+    let temp= await url.json()
+        if(temp.status==401 || temp.status==400){
+            await swal("Server Error!", `Sorry :(, ${temp.message}`, "error");
+        }else{   
+            renderSpecialiazation(temp.doctorData) 
+        }
+    } catch (error) {
+        console.log(error.message)
+        await swal("Server Error!", "Sorry :(, There is error in Server!", "error");
+    }
+}
+
+function renderSpecialiazation(temp){
+    let specilizationDiv=document.getElementById("specilizationDiv")
+    let specialIP=document.getElementById("specialIP")
+    let specialBTN=document.getElementById("specialBTN")
+    let updateSpeBtn=document.getElementById("updateSpeBtn")
+    specialIP.value=temp.areaOfSpecialization
+
+    specialBTN.addEventListener("click",(e)=>{
+        specialBTN.innerText='Save'
+        specialBTN.style.display='none'
+        updateSpeBtn.style.display='inline'
+        e.path[1].childNodes[3].readOnly=false
+        updateSpeBtn.addEventListener("click",(event)=>{
+            let value=specialIP.value
+            specialBTN.innerText='Edit'
+            specialBTN.style.display='inline'
+            updateSpeBtn.style.display='none'
+            e.path[1].childNodes[3].readOnly=true
+            if(value.length==0){
+                alert("Please enter valid specialization.")
+            }else{
+               let obj={
+                areaOfSpecialization:value
+               }
+               updateSpecialization(obj)
+            }
+        })
+        
+    })
+}
+
+async function updateSpecialization(obj){
+    try {
+        let url=await fetch(`${mainAPI}/doctors/update/specialization`,{
+        method:"PATCH",
+        headers:{
+            "Content-Type": "application/json",
+            authorization:`Bearer ${token}`
+        },
+        body:JSON.stringify(obj)
+    })
+
+    let serverRes=await url.json()
+    if(serverRes.status==400 || serverRes.status==401){
+        await swal("ERROR!", `${serverRes.message}`, "error");
+    }else{
+        await swal("Successfull!", `${serverRes.Message}`, "success"); 
+        getDoctorData()
+    }
+    } catch (error) {
+        console.log(error.message)
+        await swal("Server Error!", "Sorry :(, There is error in Server!", "error");
+    }
+}

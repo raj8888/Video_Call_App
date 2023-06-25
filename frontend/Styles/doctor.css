@@ -363,3 +363,44 @@ a {
     background-color: rgb(253, 56, 56);
     cursor: pointer;
   }
+  #specilizationDiv{
+    width: 95%;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgb(246, 150, 150);
+  }
+  #specialIP{
+    width: 50%;
+    padding: 7px;
+    font-size: 17px;
+  }
+  #spciallable{
+    font-size: 17px;
+    font-weight: bolder;
+  }
+  #specialBTN{
+    padding: 10px 30px;
+    font-weight: bold;
+    background-color: white;
+    color: black;
+  }
+  #specialBTN:hover{
+    cursor: pointer;
+    background-color: black;
+    color: white;
+  }
+  #updateSpeBtn{
+    padding: 10px 30px;
+    font-weight: bold;
+    background-color: white;
+    color: black;
+    display: none;
+  }
+  #updateSpeBtn:hover{
+    cursor: pointer;
+    background-color: black;
+    color: white;
+  }
