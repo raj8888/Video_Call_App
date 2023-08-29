@@ -359,17 +359,6 @@ Video Call, Chat, MicOff, CameraOff, ShareScreen :
 
 **Both patient and doctor will receive mail notification for if patient create meet, update meet information or delete meet**
 
-## Sample Accounts
-
-### For Patients
-- EmailID : jadhavrj8877@gmail.com
-- Role    : patient
-- Password: Raj@8080680
-
-### For Doctors
-- EmailID : jadhavrj8888@gmail.com
-- Role    : doctor
-- Password: Raj@8080680
 
 ## Live Demo
 
